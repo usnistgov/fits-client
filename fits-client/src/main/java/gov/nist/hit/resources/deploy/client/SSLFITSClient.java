@@ -17,16 +17,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import gov.nist.healthcare.cds.domain.SoftwareConfig;
 import gov.nist.healthcare.cds.domain.TestCase;
 import gov.nist.healthcare.cds.domain.TestPlan;
-import gov.nist.healthcare.cds.domain.TransientExecRequest;
 import gov.nist.healthcare.cds.domain.wrapper.Report;
 import gov.nist.hist.resources.deploy.ssl.SSLRestTemplateFactory;
 import gov.nist.hit.resources.deploy.api.FITSClient;
 import gov.nist.hit.resources.deploy.config.FITSApiConfig;
 import gov.nist.hit.resources.deploy.exception.InsupportedApiMethod;
 import gov.nist.hit.resources.deploy.model.Action;
+import gov.nist.hit.resources.deploy.model.ClientSoftwareConfig;
+import gov.nist.hit.resources.deploy.model.ClientTransientExecRequest;
 
 
 @Service
@@ -60,8 +60,8 @@ public class SSLFITSClient implements FITSClient {
 	}
 	
 	@Override
-	public ResponseEntity<List<Report>> execute(SoftwareConfig software, Date relativeAssessmentDate, List<TestCase> tcs) throws InsupportedApiMethod {
-		TransientExecRequest exec = new TransientExecRequest();
+	public ResponseEntity<List<Report>> execute(ClientSoftwareConfig software, Date relativeAssessmentDate, List<TestCase> tcs) throws InsupportedApiMethod {
+		ClientTransientExecRequest exec = new ClientTransientExecRequest();
 		for(TestCase tc : tcs){
 			exec.addTestCase(tc.getId());
 		}
@@ -82,10 +82,10 @@ public class SSLFITSClient implements FITSClient {
 	}
 	
 	@Override
-	public ResponseEntity<List<SoftwareConfig>> getSoftwareConfiguration() throws InsupportedApiMethod {
+	public ResponseEntity<List<ClientSoftwareConfig>> getSoftwareConfiguration() throws InsupportedApiMethod {
 		HttpEntity<?> httpEntity = new HttpEntity<Object>(this.headers());
 		System.out.println(createURL(config.urlFor(Action.TESTPLANS)));
-		ResponseEntity<List<SoftwareConfig>> response = wire.exchange(createURL(config.urlFor(Action.CONFIG)), HttpMethod.GET, httpEntity, new ParameterizedTypeReference<List<SoftwareConfig>>() {});
+		ResponseEntity<List<ClientSoftwareConfig>> response = wire.exchange(createURL(config.urlFor(Action.CONFIG)), HttpMethod.GET, httpEntity, new ParameterizedTypeReference<List<ClientSoftwareConfig>>() {});
 		return response;
 	}
 
