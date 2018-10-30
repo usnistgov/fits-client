@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -13,7 +14,9 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -43,6 +46,13 @@ public class SSLFITSClient implements FITSClient {
 		this.host = host;
 		config = new FITSApiConfig();
 		wire = SSLRestTemplateFactory.createSSLRestTemplate();
+		MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter = new MappingJackson2HttpMessageConverter();
+		mappingJackson2HttpMessageConverter.setSupportedMediaTypes(
+                              Arrays.asList(
+                                 MediaType.APPLICATION_JSON, 
+                                 MediaType.APPLICATION_OCTET_STREAM));
+		wire.getMessageConverters().add(mappingJackson2HttpMessageConverter);
+		
 	}
 	
 	public SSLFITSClient(String host, String username, String password) throws KeyManagementException, NoSuchAlgorithmException, KeyStoreException, IOException{
@@ -84,7 +94,6 @@ public class SSLFITSClient implements FITSClient {
 	@Override
 	public ResponseEntity<List<ClientSoftwareConfig>> getSoftwareConfiguration() throws InsupportedApiMethod {
 		HttpEntity<?> httpEntity = new HttpEntity<Object>(this.headers());
-		System.out.println(createURL(config.urlFor(Action.TESTPLANS)));
 		ResponseEntity<List<ClientSoftwareConfig>> response = wire.exchange(createURL(config.urlFor(Action.CONFIG)), HttpMethod.GET, httpEntity, new ParameterizedTypeReference<List<ClientSoftwareConfig>>() {});
 		return response;
 	}
