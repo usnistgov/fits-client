@@ -46,13 +46,6 @@ public class SSLFITSClient implements FITSClient {
 		this.host = host;
 		config = new FITSApiConfig();
 		wire = SSLRestTemplateFactory.createSSLRestTemplate();
-		MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter = new MappingJackson2HttpMessageConverter();
-		mappingJackson2HttpMessageConverter.setSupportedMediaTypes(
-                              Arrays.asList(
-                                 MediaType.APPLICATION_JSON, 
-                                 MediaType.APPLICATION_OCTET_STREAM));
-		wire.getMessageConverters().add(mappingJackson2HttpMessageConverter);
-		
 	}
 	
 	public SSLFITSClient(String host, String username, String password) throws KeyManagementException, NoSuchAlgorithmException, KeyStoreException, IOException{
