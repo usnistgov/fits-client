@@ -40,7 +40,7 @@
 		</dependency>
 		<dependency>
 			<groupId>gov.nist.healthcare.cds</groupId>
-			<artifactId>cds-base-domain</artifactId>
+			<artifactId>cds-base-utils</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>

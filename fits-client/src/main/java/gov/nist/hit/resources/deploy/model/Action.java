@@ -4,6 +4,7 @@ public enum Action {
 	
 	TESTPLANS("testplans"),
 	EXECUTE("execute"),
+	VALIDATE("validate"),
 	CONFIG("config");
 
 	private String code;

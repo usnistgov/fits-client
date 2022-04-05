@@ -4,19 +4,17 @@ import java.io.IOException;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import gov.nist.healthcare.cds.domain.wrapper.ValidationRequest;
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -36,7 +34,7 @@ import gov.nist.hit.resources.deploy.model.ClientTransientExecRequest;
 public class SSLFITSClient implements FITSClient {
 
 	private RestTemplate wire;
-	private FITSApiConfig config;
+	private final FITSApiConfig config;
 	private String token;
 	private String host;
 	
@@ -70,25 +68,27 @@ public class SSLFITSClient implements FITSClient {
 		}
 		exec.setSoftware(software);
 		exec.setDate(relativeAssessmentDate);
-		HttpEntity<?> httpEntity = new HttpEntity<Object>(exec,this.headers());
-		System.out.println(config.urlFor(Action.EXECUTE));
-		ResponseEntity<List<Report>> response = wire.exchange(createURL(config.urlFor(Action.EXECUTE)), HttpMethod.POST, httpEntity, new ParameterizedTypeReference<List<Report>>() {});
-		return response;
+		HttpEntity<ClientTransientExecRequest> httpEntity = new HttpEntity<>(exec,this.headers());
+		return wire.exchange(createURL(config.urlFor(Action.EXECUTE)), HttpMethod.POST, httpEntity, new ParameterizedTypeReference<List<Report>>() {});
+	}
+
+	@Override
+	public ResponseEntity<List<Report>> validate(List<ValidationRequest> requests) throws InsupportedApiMethod {
+		HttpEntity<List<ValidationRequest>> httpEntity = new HttpEntity<>(requests,this.headers());
+		return wire.exchange(createURL(config.urlFor(Action.VALIDATE)), HttpMethod.POST, httpEntity, new ParameterizedTypeReference<List<Report>>() {});
 	}
 
 	@Override
 	public ResponseEntity<List<TestPlan>> getTestPlans() throws InsupportedApiMethod {
-		HttpEntity<?> httpEntity = new HttpEntity<Object>(this.headers());
+		HttpEntity<?> httpEntity = new HttpEntity<>(this.headers());
 		System.out.println(createURL(config.urlFor(Action.TESTPLANS)));
-		ResponseEntity<List<TestPlan>> response = wire.exchange(createURL(config.urlFor(Action.TESTPLANS)), HttpMethod.GET, httpEntity, new ParameterizedTypeReference<List<TestPlan>>() {});
-		return response;
+		return wire.exchange(createURL(config.urlFor(Action.TESTPLANS)), HttpMethod.GET, httpEntity, new ParameterizedTypeReference<List<TestPlan>>() {});
 	}
 	
 	@Override
 	public ResponseEntity<List<ClientSoftwareConfig>> getSoftwareConfiguration() throws InsupportedApiMethod {
-		HttpEntity<?> httpEntity = new HttpEntity<Object>(this.headers());
-		ResponseEntity<List<ClientSoftwareConfig>> response = wire.exchange(createURL(config.urlFor(Action.CONFIG)), HttpMethod.GET, httpEntity, new ParameterizedTypeReference<List<ClientSoftwareConfig>>() {});
-		return response;
+		HttpEntity<?> httpEntity = new HttpEntity<>(this.headers());
+		return wire.exchange(createURL(config.urlFor(Action.CONFIG)), HttpMethod.GET, httpEntity, new ParameterizedTypeReference<List<ClientSoftwareConfig>>() {});
 	}
 
 	@Override
