@@ -17,11 +17,10 @@ import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.*;
 
 public class SSLFITSClientSnippet {
-
-    static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
 
     public static void main(String[] args) throws IOException, NoSuchAlgorithmException, KeyStoreException, KeyManagementException, InsupportedApiMethod, UnresolvableDate, ParseException {
         String passToken = SSLFITSClient.tokenize("USERNAME", "PASSWORD");
@@ -33,8 +32,8 @@ public class SSLFITSClientSnippet {
         TestCase tc = tp.getTestCases().get(0);
         SimpleTestCaseUtilService testCaseUtilService = SimpleTestCaseUtilService.getInstance();
 
-        Date executionDate = new Date();
-        System.out.println("Execution Date : " + executionDate.toString());
+        LocalDate executionDate = LocalDate.now();
+        System.out.println("Execution Date : " + executionDate);
         System.out.println("Executing TestCase : " + tc.getUid() + " (" + tc.getId() + ")");
         TestCasePayLoad payload = testCaseUtilService.getTestCasePayload(tc, executionDate);
 
@@ -79,9 +78,9 @@ public class SSLFITSClientSnippet {
         ActualForecast forecast = new ActualForecast();
         forecast.setVaccine(payload.getImmunizations().get(0).getRef());
         // Hardcoded values
-        forecast.setEarliest(simpleDateFormat.parse("10/04/2022"));
-        forecast.setRecommended(simpleDateFormat.parse("10/04/2022"));
-        forecast.setPastDue(simpleDateFormat.parse("10/04/2024"));
+        forecast.setEarliest(LocalDate.parse("10/04/2022", FixedDate.formatter));
+        forecast.setRecommended(LocalDate.parse("10/04/2022", FixedDate.formatter));
+        forecast.setPastDue(LocalDate.parse("10/04/2024", FixedDate.formatter));
         forecast.setDoseNumber("2");
         forecast.setSerieStatus(SerieStatus.N);
 

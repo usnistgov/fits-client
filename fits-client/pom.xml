@@ -4,7 +4,7 @@
 
 	<groupId>gov.nist.healthcare.cds.client</groupId>
 	<artifactId>fits-client</artifactId>
-	<version>1.2.0</version>
+	<version>1.2.1</version>
 
 
 	<name>client</name>
@@ -41,7 +41,7 @@
 		<dependency>
 			<groupId>gov.nist.healthcare.cds</groupId>
 			<artifactId>cds-base-utils</artifactId>
-			<version>1.0.0</version>
+			<version>1.0.1</version>
 		</dependency>
 	</dependencies>
 
