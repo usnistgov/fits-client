@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import gov.nist.healthcare.cds.domain.wrapper.ValidationRequest;
@@ -61,7 +61,7 @@ public class SSLFITSClient implements FITSClient {
 	}
 	
 	@Override
-	public ResponseEntity<List<Report>> execute(ClientSoftwareConfig software, Date relativeAssessmentDate, List<TestCase> tcs) throws InsupportedApiMethod {
+	public ResponseEntity<List<Report>> execute(ClientSoftwareConfig software, LocalDate relativeAssessmentDate, List<TestCase> tcs) throws InsupportedApiMethod {
 		ClientTransientExecRequest exec = new ClientTransientExecRequest();
 		for(TestCase tc : tcs){
 			exec.addTestCase(tc.getId());

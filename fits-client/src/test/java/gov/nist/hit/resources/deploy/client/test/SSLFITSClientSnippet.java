@@ -1,4 +1,4 @@
-package gov.nist.hit.resources.deploy.client;
+package gov.nist.hit.resources.deploy.client.test;
 
 import gov.nist.healthcare.cds.domain.FixedDate;
 import gov.nist.healthcare.cds.domain.TestCase;
@@ -8,6 +8,7 @@ import gov.nist.healthcare.cds.domain.wrapper.*;
 import gov.nist.healthcare.cds.enumeration.EvaluationStatus;
 import gov.nist.healthcare.cds.enumeration.SerieStatus;
 import gov.nist.healthcare.cds.service.impl.SimpleTestCaseUtilService;
+import gov.nist.hit.resources.deploy.client.SSLFITSClient;
 import gov.nist.hit.resources.deploy.exception.InsupportedApiMethod;
 import org.springframework.http.ResponseEntity;
 

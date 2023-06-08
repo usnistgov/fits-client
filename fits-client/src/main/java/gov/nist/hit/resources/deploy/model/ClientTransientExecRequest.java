@@ -1,5 +1,6 @@
 package gov.nist.hit.resources.deploy.model;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +12,7 @@ public class ClientTransientExecRequest {
 	
 	private ClientSoftwareConfig software;
 	@Temporal(TemporalType.TIMESTAMP)
-	private java.util.Date date;
+	private LocalDate date;
 	private List<String> testCases;
 	
 	public ClientSoftwareConfig getSoftware() {
@@ -20,10 +21,10 @@ public class ClientTransientExecRequest {
 	public void setSoftware(ClientSoftwareConfig software) {
 		this.software = software;
 	}
-	public java.util.Date getDate() {
+	public LocalDate getDate() {
 		return date;
 	}
-	public void setDate(java.util.Date date) {
+	public void setDate(LocalDate date) {
 		this.date = date;
 	}
 	public List<String> getTestCases() {
