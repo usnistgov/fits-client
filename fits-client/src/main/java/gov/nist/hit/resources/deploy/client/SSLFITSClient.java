@@ -81,7 +81,6 @@ public class SSLFITSClient implements FITSClient {
 	@Override
 	public ResponseEntity<List<TestPlan>> getTestPlans() throws InsupportedApiMethod {
 		HttpEntity<?> httpEntity = new HttpEntity<>(this.headers());
-		System.out.println(createURL(config.urlFor(Action.TESTPLANS)));
 		return wire.exchange(createURL(config.urlFor(Action.TESTPLANS)), HttpMethod.GET, httpEntity, new ParameterizedTypeReference<List<TestPlan>>() {});
 	}
 	
